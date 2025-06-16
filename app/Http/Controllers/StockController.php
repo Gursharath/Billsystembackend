@@ -55,6 +55,12 @@ class StockController extends Controller
 
     public function logs()
     {
-        return StockLog::with('product')->orderBy('created_at', 'desc')->get();
-    }
+    $logs = StockLog::latest()->take(6)->get(); // Get latest 5 logs
+    return response()->json($logs);
+}
+    public function latestLogs()
+{
+    $logs = StockLog::latest()->take(5)->get(); // Get latest 5 logs
+    return response()->json($logs);
+}
 }

@@ -11,6 +11,17 @@ class ProductController extends Controller
     {
         return Product::all();
     }
+    public function count()
+{
+    $count = Product::count();
+    return response()->json(['total' => $count]);
+}
+public function totalQuantity()
+{
+    $totalQuantity = Product::sum('quantity');
+    return response()->json(['total_quantity' => $totalQuantity], 200);
+}
+
 
     public function store(Request $request)
     {
@@ -31,6 +42,7 @@ class ProductController extends Controller
     {
         return Product::findOrFail($id);
     }
+    
 
     public function update(Request $request, $id)
     {
@@ -65,4 +77,6 @@ class ProductController extends Controller
         }
         return $product;
     }
+    
+
 }

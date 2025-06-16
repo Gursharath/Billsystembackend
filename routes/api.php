@@ -20,11 +20,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/products/{id}', [ProductController::class, 'update']);
     Route::delete('/products/{id}', [ProductController::class, 'destroy']);
     Route::get('/barcode/{code}', [ProductController::class, 'barcode']);
+    Route::get('/products/count', [ProductController::class, 'count']);
+    Route::get('/product/count', [ProductController::class, 'count']);
+    Route::get('/product/total-quantity', [ProductController::class, 'totalQuantity']);
+
 
     // Stock
     Route::post('/stock/in', [StockController::class, 'stockIn']);
     Route::post('/stock/out', [StockController::class, 'stockOut']);
     Route::get('/stock/logs', [StockController::class, 'logs']);
+    Route::get('/stock/logs/latest', [StockController::class, 'latestLogs']);
 
     // Invoices
     Route::get('/invoices', [InvoiceController::class, 'index']);
