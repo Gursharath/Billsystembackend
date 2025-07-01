@@ -1,61 +1,199 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛠️ InvenBill – Laravel Backend API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is the **Laravel-based backend** for the **InvenBill** app – a smart Inventory and Billing System for small businesses, retail shops, and wholesalers. It provides secure, RESTful APIs to support product management, stock tracking, invoice generation, user roles, and admin analytics.
 
-## About Laravel
+Built using **Laravel 11**, **Sanctum** for authentication, and **MySQL** for data storage.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+✅ RESTful API (JSON responses)  
+✅ Token-based Auth with Laravel Sanctum  
+✅ Role-based access (Admin / Staff)  
+✅ Product & Stock CRUD  
+✅ Invoice creation with PDF generation  
+✅ Sales dashboard (daily/monthly stats)  
+✅ Export to CSV (products/invoices)  
+✅ PDF templates (server-rendered if needed)  
+✅ API integrated with Flutter frontend
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 📁 Folder Structure Overview
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+invenbill-backend/
+├── app/
+│ ├── Http/
+│ │ ├── Controllers/ # API controllers (ProductController, InvoiceController, etc.)
+│ │ ├── Middleware/
+│ ├── Models/ # Product.php, Invoice.php, User.php, etc.
+├── database/
+│ ├── migrations/ # DB table definitions
+│ ├── seeders/ # Optional seed data
+├── routes/
+│ └── api.php # API routes for mobile app
+├── config/
+│ └── sanctum.php # Sanctum auth config
+├── resources/
+│ └── views/invoices/ # Optional invoice blade template
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+yaml
+Copy
+Edit
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## ⚙️ Installation & Setup
 
-### Premium Partners
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/invenbill-backend.git
+cd invenbill-backend
+2. Install Dependencies
+bash
+Copy
+Edit
+composer install
+3. Environment Setup
+bash
+Copy
+Edit
+cp .env.example .env
+php artisan key:generate
+Update .env with your database configuration:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+env
+Copy
+Edit
+DB_DATABASE=invenbill
+DB_USERNAME=root
+DB_PASSWORD=
+4. Run Migrations
+bash
+Copy
+Edit
+php artisan migrate
+5. (Optional) Seed Test Data
+bash
+Copy
+Edit
+php artisan db:seed
+6. Serve API Locally
+bash
+Copy
+Edit
+php artisan serve
+Access: http://localhost:8000
 
-## Contributing
+🔐 Authentication
+Uses Laravel Sanctum for API token-based login.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+On successful login, returns an access_token
 
-## Code of Conduct
+Token must be included in Authorization: Bearer <token> header in all subsequent API requests
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+📡 API Endpoints
+🔑 Auth
+Method	Endpoint	Description
+POST	/api/register	Register user
+POST	/api/login	Login user & get token
+GET	/api/logout	Logout user
 
-## Security Vulnerabilities
+📦 Products
+Method	Endpoint	Description
+GET	/api/products	List products
+POST	/api/products	Create new product
+PUT	/api/products/{id}	Update product
+DELETE	/api/products/{id}	Delete product
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+📥 Stock Management
+Method	Endpoint	Description
+POST	/api/stock/in	Add stock
+POST	/api/stock/out	Reduce stock (sale/damage)
+GET	/api/stock/logs	View stock transactions
 
-## License
+🧾 Invoices
+Method	Endpoint	Description
+POST	/api/invoices	Create new invoice
+GET	/api/invoices	List invoices
+GET	/api/invoices/{id}	Invoice details
+GET	/api/invoices/{id}/pdf	Download PDF
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+📊 Dashboard
+Method	Endpoint	Description
+GET	/api/dashboard/stats	Total sales, low stock, etc.
+
+🔓 Roles & Permissions
+Role	Access
+Admin	Full access to all endpoints + users
+Staff	Products, stock, invoices only
+
+Implemented using Laravel middleware:
+
+php
+Copy
+Edit
+Route::middleware(['auth:sanctum', 'role:admin'])->group(...);
+📄 PDF & Export
+Server generates invoice PDF using Blade templates + dompdf
+
+Optional CSV export for products/invoices available via:
+
+/api/products/export
+
+/api/invoices/export
+
+✅ Environment Variables (Important)
+Make sure to configure:
+
+env
+Copy
+Edit
+APP_NAME=InvenBill
+APP_URL=http://localhost:8000
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=invenbill
+DB_USERNAME=root
+DB_PASSWORD=
+
+SANCTUM_STATEFUL_DOMAINS=localhost:8000
+SESSION_DOMAIN=localhost
+📦 Suggested Database Tables
+users (id, name, email, password, role)
+
+products (id, name, barcode, price, qty, image)
+
+stock_logs (id, product_id, type[in/out], qty, reason, date)
+
+invoices (id, customer_name, total, tax, date)
+
+invoice_items (invoice_id, product_id, qty, price, subtotal)
+
+Want the full ERD diagram? Open an issue
+
+📤 Deployment (Optional)
+To deploy to production:
+
+bash
+Copy
+Edit
+php artisan config:cache
+php artisan route:cache
+php artisan migrate --force
+Use services like:
+
+Laravel Forge
+
+Shared Hosting with PHP 8+
+
+VPS with Apache/Nginx + MySQL
+
+📫 Contact / Support
+Developed by Gursharath (23BCE1825)
+
+Need help? Open an Issue
+
